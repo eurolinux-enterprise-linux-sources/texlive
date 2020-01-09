@@ -1,0 +1,37 @@
+--- texlive-2012.me/./source/texk/kpathsea/mktexlsr.than	2015-05-21 13:16:15.452959467 +0200
++++ texlive-2012.me/./source/texk/kpathsea/mktexlsr	2015-05-21 17:54:32.580726269 +0200
+@@ -205,12 +207,13 @@
+          -e '/^[\.\/]*lsR[0-9]*\.tmp:*$/d' \
+    | sed -e /$vc_dirs'.*:$/,/^$/d' \
+    >>"$db_file_tmp"
+-
+-  # To be really safe, a loop.
+-  until PERMS=`kpsestat = "$db_file"`; do sleep 1; done
+-  chmod $PERMS "$db_file_tmp"
++  # selinux
++  chmod 0644 "$db_file_tmp"
+   rm -f "$db_file"
+-  mv "$db_file_tmp" "$db_file"
++  cp "$db_file_tmp" "$db_file"
++  if [ -x /usr/sbin/selinuxenabled ] && /usr/sbin/selinuxenabled; then
++  [ -x /sbin/restorecon ] && /sbin/restorecon -R $(dirname "$db_file") #%{_texmf_var}/
++  fi
+   rm -rf "$db_dir_tmp"
+ done
+ $verbose && echo "$progname: Done." >&2
+diff -up texlive-2012/source/texk/texlive/tl_scripts/fmtutil.sh.than texlive-2012/source/texk/texlive/tl_scripts/fmtutil.sh
+--- texlive-2012/source/texk/texlive/tl_scripts/fmtutil.sh.than	2015-06-08 15:34:28.122139862 +0200
++++ texlive-2012/source/texk/texlive/tl_scripts/fmtutil.sh	2015-06-08 15:34:57.839683645 +0200
+@@ -777,10 +777,10 @@ run_initex()
+       log_warning "\`$engine -ini $tcxflag $jobswitch $prgswitch $texargs' possibly failed."
+ 
+     # We don't want user-interaction for the following "mv" commands:
+-    mv "$format.log" "$fulldestdir/$format.log" </dev/null
++    cp "$format.log" "$fulldestdir/$format.log" </dev/null
+     #
+     destfile=$fulldestdir/$fmtfile
+-    if mv "$fmtfile" "$destfile" </dev/null; then
++    if cp "$fmtfile" "$destfile" </dev/null; then
+       verboseMsg "$progname: $destfile installed."
+       #
+       # As a special special case, we create mplib-luatex.mem for use by

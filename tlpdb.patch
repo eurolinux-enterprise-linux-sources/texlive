@@ -1,0 +1,18 @@
+--- texlive.tlpdb.orig	2013-06-12 17:55:01.418202774 +0200
++++ texlive.tlpdb	2013-06-14 11:56:46.231632305 +0200
+@@ -7249,7 +7249,6 @@
+ shortdesc TeX Live documentation
+ relocated 1
+ depend texlive-common
+-depend texlive-docindex
+ depend texlive-en
+ 
+ name collection-fontsrecommended
+@@ -32097,7 +32096,6 @@
+ revision 26912
+ shortdesc i386-linux files of xetex
+ binfiles arch=i386-linux size=4837
+- bin/i386-linux/teckit_compile
+  bin/i386-linux/xdvipdfmx
+  bin/i386-linux/xelatex
+  bin/i386-linux/xetex
