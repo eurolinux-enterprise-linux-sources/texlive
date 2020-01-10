@@ -5,6 +5,7 @@
 %define ptex_src_ver	3.1.10
 %define pdvipsk_ver	p1.7a
 %define mendexk_ver	2.6e
+%define texlive_texmf_rel 39
 
 %define desktop_file_utils_version 0.9
 %define default_letter_paper 0
@@ -21,7 +22,7 @@
 
 Name:		texlive
 Version:	%{texlive_ver}
-Release:	57%{?dist}
+Release:	60%{?dist}
 Summary:	Binaries for the TeX formatting system
 
 Group:		Applications/Publishing
@@ -132,6 +133,9 @@ Patch1005:	texlive-2007-pdvips.patch
 Patch1006:	texlive-2007-ptex-3.1.10.patch
 Patch1007:	texlive-2007-fmtutil-ptex.patch
 
+# rhel patches
+Patch2000: texlive-2007-bz#699575.patch
+
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	flex bison ed xdg-utils
@@ -142,8 +146,8 @@ BuildRequires:	libSM-devel libICE-devel
 BuildRequires:	Xaw3d-devel
 BuildRequires:	poppler-devel >= 0.6.2-2
 BuildRequires:	teckit-devel
-Requires:	texlive-texmf = %{version}
-Requires:	texlive-texmf-fonts = %{version}
+Requires:	texlive-texmf >= %{version}-%{texlive_texmf_rel}
+Requires:	texlive-texmf-fonts >= %{version}-%{texlive_texmf_rel}
 Requires:	texlive-texmf-errata = %{version}
 # make sure fonts package installed before running post - since
 # fmtutil-sys is symlink to fmtutil
@@ -174,7 +178,7 @@ Summary: A converter for PostScript(TM) font metric files, for use with TeX
 Group: Applications/Publishing
 Obsoletes: tetex-afm < 3.0-99
 Provides:  tetex-afm = 3.0-99
-Requires: texlive-texmf-afm = %{version}
+Requires: texlive-texmf-afm >= %{version}-%{texlive_texmf_rel}
 Requires: texlive-texmf-errata = %{version}
 
 %description afm
@@ -208,7 +212,7 @@ with X support.
 Summary: TeX typesetting engine using Unicode with OpenType or AAT support
 Group: Applications/Publishing
 Requires: texlive = %{version}-%{release}
-Requires: texlive-texmf-xetex = %{version}
+Requires: texlive-texmf-xetex >= %{version}-%{texlive_texmf_rel}
 Requires: dvipdfmx xdvipdfmx
 Provides: tex(xetex)
 
@@ -226,7 +230,7 @@ Requires: texlive = %{version}-%{release}
 Obsoletes: tetex < 3.0-99
 Obsoletes: tetex-dvips < 3.0-99
 Provides:  tetex-dvips = 3.0-99
-Requires: texlive-texmf-dvips = %{version}
+Requires: texlive-texmf-dvips >= %{version}-%{texlive_texmf_rel}
 Requires: texlive-texmf-errata = %{version}
 Provides: tex(dvips)
 Requires: psutils
@@ -267,7 +271,7 @@ BuildRequires: ghostscript netpbm-progs
 Obsoletes: tetex < 3.0-99
 Obsoletes: tetex-latex < 3.0-99
 Provides:  tetex-latex = 3.0-99
-Requires: texlive-texmf-latex = %{version}
+Requires: texlive-texmf-latex >= %{version}-%{texlive_texmf_rel}
 Requires: texlive-texmf-errata = %{version}
 Requires: texlive-utils = %{version}-%{release}
 Provides: tex(latex)
@@ -285,8 +289,8 @@ Summary: Support for East Asian languages in TeXLive
 Group: Applications/Publishing
 Requires: texlive = %{version}-%{release}
 Requires: texlive-latex = %{version}-%{release}
-Requires: texlive-texmf-dvips = %{version}
-Requires: texlive-texmf-east-asian = %{version}
+Requires: texlive-texmf-dvips >= %{version}-%{texlive_texmf_rel}
+Requires: texlive-texmf-east-asian >= %{version}-%{texlive_texmf_rel}
 Requires: texlive-texmf-errata-east-asian = %{version}
 Requires: mendexk
 Obsoletes: texlive-japanese < 2007-20
@@ -301,7 +305,7 @@ East Asian support for TeXLive.
 Summary: ConTeXt is a document preparation system based on TeX
 Group: Applications/Publishing
 Requires: texlive = %{version}-%{release}
-Requires: texlive-texmf-context = %{version}
+Requires: texlive-texmf-context >= %{version}-%{texlive_texmf_rel}
 Requires: texlive-texmf-errata-context = %{version}
 Requires: ruby
 Provides: tex(context)
@@ -422,6 +426,7 @@ chmod -x texk/dvipdfm/encodings.c
 %patch306 -p0
 
 %patch1007 -p1 -b .ptex
+%patch2000 -p1
 
 %if %{disable_lcdf_typetools}
 pushd utils
@@ -1223,9 +1228,18 @@ fi
 %{_mandir}/man1/texutil.1*
 
 %changelog
+* Fri Aug 28 2015 Than Ngo <than@redhat.com> - 2007-60
+- add correct requirement on texlive-texmf-errata
+
+* Fri Aug 28 2015 Than Ngo <than@redhat.com> - 2007-59
+- add requires on new texlive-texmf-2007-39
+
+* Wed Jun 03 2015 Than Ngo <than@redhat.com> - 2007-58
+- Resolves: bz#699575, running latex when the .aux file is non-writable can erase the input .tex file
+
 * Thu Jan 12 2012 Jindrich Novy <jnovy@redhat.com> 2007-57
 - fix CVE-2010-2642 CVE-2011-0433 CVE-2011-0764 CVE-2011-1552
-  CVE-2011-1553 CVE-2011-1554, texlive various flaws (#773183)
+  CVE-2011-1553 CVE-2011-1554, texlive various flaws (#773184)
 
 * Thu Jun 24 2010 Jindrich Novy <jnovy@redhat.com> 2007-56
 - add LGPL license to kpathsea's docs (#607142)
