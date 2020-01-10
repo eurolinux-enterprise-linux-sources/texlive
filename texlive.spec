@@ -21,7 +21,7 @@
 
 Name:		texlive
 Version:	%{texlive_ver}
-Release:	56%{?dist}
+Release:	57%{?dist}
 Summary:	Binaries for the TeX formatting system
 
 Group:		Applications/Publishing
@@ -82,6 +82,8 @@ Patch33:	texlive-poolfix.patch
 Patch34:	texlive-dvipsconfig.patch
 Patch35:	texlive-CVE-2010-0739,1440-integer-overflows.patch
 Patch36:	texlive-execshield.patch
+Patch37:	texlive-CVE-2011-0433.patch
+Patch38:	texlive-CVE-2011-0764,1552.patch
 
 ######
 # mpeters contributed patches
@@ -388,6 +390,8 @@ chmod -x texk/dvipdfm/encodings.c
 %patch34 -p1 -b .dvipsconfig
 %patch35 -p1 -b .CVE-2010-0739,1440
 %patch36 -p1 -b .execshield
+%patch37 -p1 -b .CVE-2011-0433
+%patch38 -p1 -b .CVE-2011-0764,1552
 
 # fix non utf man pages
 %patch42 -p1 -b .notutf8-2
@@ -1219,6 +1223,10 @@ fi
 %{_mandir}/man1/texutil.1*
 
 %changelog
+* Thu Jan 12 2012 Jindrich Novy <jnovy@redhat.com> 2007-57
+- fix CVE-2010-2642 CVE-2011-0433 CVE-2011-0764 CVE-2011-1552
+  CVE-2011-1553 CVE-2011-1554, texlive various flaws (#773183)
+
 * Thu Jun 24 2010 Jindrich Novy <jnovy@redhat.com> 2007-56
 - add LGPL license to kpathsea's docs (#607142)
 
