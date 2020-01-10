@@ -1,0 +1,57 @@
+#!/bin/sh
+# $Id: Build 2729 2006-12-14 02:12:38Z karl $
+# Originally written many years ago by Sebastian Rahtz.  Public domain.
+# To build (mostly) without optimization, try CFLAGS=-g Build.
+# Any options given are passed along to configure.
+
+# cd to our source directory.
+mydir=`dirname $0`
+cd $mydir || exit 1
+
+if test "x$1" != "x--no-clean"; then
+  test -f Makefile && make clean 
+  rm -rf Work inst
+else
+  shift
+fi
+
+# allow override of install destination, just in case.
+if test -z "$TL_INSTALL_DEST"; then
+  H=`pwd`
+  test -d inst || mkdir -p inst/texmf  # avoid configure warnings
+  TL_INSTALL_DEST=$H/inst
+fi
+
+unset CDPATH
+test -d Work || mkdir Work
+cd Work || exit 1
+
+# allow override of configure location, just in case.
+: ${TL_CONFIGURE=../configure}
+
+# allow override of xdvi toolkit.
+: ${TL_XDVI_TOOLKIT=--with-xdvi-x-toolkit=xaw}
+
+# allow adding other configure args.
+: ${TL_CONFIGURE_ARGS=}
+
+# allow override of make program.
+: ${TL_MAKE=make}
+
+# allow override of make target.
+: ${TL_TARGET=world}
+
+# and then set GNUMAKE to that, for the sake of freetype2/configure.
+: ${GNUMAKE=${TL_MAKE}}
+export GNUMAKE
+
+# Force building xdvi-xaw; motif is not always free and/or available.
+# --enable-gif is for sam2p; the gif patent has expired worldwide.
+(set -x; \
+  time $TL_CONFIGURE \
+         --prefix=$TL_INSTALL_DEST \
+         --datadir=$TL_INSTALL_DEST \
+         $TL_XDVI_TOOLKIT \
+         $TL_CONFIGURE_ARGS \
+         "$@" \
+ && time $TL_MAKE $TL_TARGET)

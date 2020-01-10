@@ -1,0 +1,18 @@
+Release notes for version 1.9 of the dvipng package:
+
+This program makes PNG graphics from DVI files as obtained from TeX
+and its relatives.
+
+
+The 1.9 release adds CJK (Chinese, Japanese and Korean) support, more
+specifically it adds support for the subfonts used in the CJK-latex
+package.
+
+TrueType fonts have been tested somewhat more, and the ttfonts.map
+file is now used, if present on the system.
+
+It also fixes a few bugs, most notably a version problem with
+Freetype<2.1.8, and a graphics inclusion bug for non-.-paths.
+
+
+Report any bugs you find, see README for instructions.
