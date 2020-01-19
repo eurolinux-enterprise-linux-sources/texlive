@@ -1,6 +1,6 @@
 %global source_date 20130427_r30134
 %global tl_version 2012
-%global tl_rel 27
+%global tl_rel 32
 %global tl_release %{tl_rel}.%{source_date}%{?dist}
 %global tl_noarch_release %{tl_rel}%{?dist}
 %global source_name texlive-%{source_date}-source
@@ -25,6 +25,7 @@ URL: http://tug.org/texlive/
 BuildRequires: xz libXaw-devel ncurses-devel bison flex file perl(Digest::MD5) texinfo gcc-c++
 BuildRequires: gd-devel teckit-devel freetype-devel libpng-devel t1lib-devel zlib-devel poppler-devel t1utils
 BuildRequires: zziplib-devel libicu-devel cairo-devel harfbuzz-devel pixman-devel graphite2-devel ghostscript-devel
+BuildRequires: chrpath
 Requires: texlive-scheme-basic
 Requires: texlive-collection-latexrecommended
 Requires: tex-kpathsea, tex-tetex
@@ -43,11 +44,13 @@ Obsoletes: texlive-texmf-errata-east-asian < %{tl_version}, texlive-texmf-errata
 Obsoletes: texlive-texmf-errata-latex < %{tl_version}, texlive-texmf-errata-xetex < %{tl_version}
 Conflicts: texlive-dvips = 2007
 Patch1: tl-kpfix.patch
+Patch2: texlive-multilib.patch
 Source0: %{source_name}.tar.xz
 Source1: texlive.tlpdb
 Source2: texlive-licenses.tar.xz
 Source3: tlpdb.patch
 Source4: texlive-fedora-licenses.h
+Source5: englishutf16.xml
 Source0100: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/ae.tar.xz
 Source0101: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/ae.doc.tar.xz
 Source0102: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/ae.source.tar.xz
@@ -739,6 +742,8 @@ as well as the documentation for the included software packages.
 %package base
 Summary: TeX Live filesystem, metadata and licenses shipped in text form
 BuildArch: noarch
+Requires: coreutils
+Requires: sed
 Version: %{tl_version}
 
 %description base
@@ -755,7 +760,7 @@ distribution.
 
 %package kpathsea-lib-devel
 Summary: Path searching library for TeX-related files
-Requires: %{name}-kpathsea-lib%{?_isa}
+Requires: %{name}-kpathsea-lib%{?_isa} = %{epoch}:%{tl_version}-%{tl_release}
 Provides: kpathsea-devel = %{version}
 Obsoletes: kpathsea-devel < %{version}
 
@@ -30876,6 +30881,7 @@ xz -dc %{SOURCE0} | tar x
 for l in `unxz -c %{SOURCE2} | tar t`; do
 ln -s %{_texdir}/licenses/$l $l
 done
+%patch2 -p1
 
 %build
 export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing -fno-strict-overflow"
@@ -31794,6 +31800,17 @@ EOF
 # fix permission
 chmod 644 %{buildroot}%{_texdir}/texmf-dist/doc/latex/bidi/*
 chmod 644 %{buildroot}%{_texdir}/texmf-dist/doc/xelatex/xepersian/xepersian-logo.pdf
+
+# fix rpath
+for f in bibtex dvipdfmx dvipng afm2tfm dvips pltotf tftopl vftovp vptovf gsftopk kpsewhich \
+  luatex makeindex mf mf-nowin gftodvi gftopk gftype mft pktogf pktype \
+  pdftex tex t4ht tex4ht xdvi-xaw xdvipdfmx xetex ; do
+   chrpath --delete %{buildroot}%{_bindir}/$f ||:
+done
+chrpath --delete %{buildroot}%{_libdir}/libptexenc.so.1.3.1 ||:
+
+# XML validity
+install -m 644 -p %{SOURCE5} %{buildroot}%{_texdir}/texmf-dist/doc/otherformats/xmltex/base/englishutf16.xml
 
 %clean
 rm -rf %{buildroot}
@@ -60752,7 +60769,25 @@ fi
 %{_libdir}/*.so
 
 %changelog
-* Wed Aug 14 2013 Than Ngo <than@redhat.com> - 2:-2012-26-20130427
+* Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 2:2012-32.20130427_r30134
+- Mass rebuild 2014-01-24
+
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 2:2012-31.20130427_r30134
+- Mass rebuild 2013-12-27
+
+* Wed Nov 20 2013 Than Ngo <than@redhat.com> - 2:2012-30.20130427_r30134
+- bz#1035679, Scriptlet errors
+
+* Wed Nov 20 2013 Than Ngo <than@redhat.com> - 2:2012-29.20130427_r30134
+- fix issue in RPath
+
+* Wed Nov 13 2013 Than Ngo <than@redhat.com> - 2:2012-28.20130427_r30134
+- fix multilib issue 
+- fix RPM requirement
+- fix issue in RPath
+- fix issue in XML validity
+
+* Wed Aug 14 2013 Than Ngo <than@redhat.com> - 2:2012-27-20130427
 - compile sources with -fno-strict-overflow
 - fix file permission
 
