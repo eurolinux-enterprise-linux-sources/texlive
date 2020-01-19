@@ -1,6 +1,6 @@
 %global source_date 20130427_r30134
 %global tl_version 2012
-%global tl_rel 43
+%global tl_rel 27
 %global tl_release %{tl_rel}.%{source_date}%{?dist}
 %global tl_noarch_release %{tl_rel}%{?dist}
 %global source_name texlive-%{source_date}-source
@@ -25,7 +25,6 @@ URL: http://tug.org/texlive/
 BuildRequires: xz libXaw-devel ncurses-devel bison flex file perl(Digest::MD5) texinfo gcc-c++
 BuildRequires: gd-devel teckit-devel freetype-devel libpng-devel t1lib-devel zlib-devel poppler-devel t1utils
 BuildRequires: zziplib-devel libicu-devel cairo-devel harfbuzz-devel pixman-devel graphite2-devel ghostscript-devel
-BuildRequires: chrpath
 Requires: texlive-scheme-basic
 Requires: texlive-collection-latexrecommended
 Requires: tex-kpathsea, tex-tetex
@@ -43,24 +42,12 @@ Obsoletes: texlive-texmf-errata-doc < %{tl_version}, texlive-texmf-errata-dvips 
 Obsoletes: texlive-texmf-errata-east-asian < %{tl_version}, texlive-texmf-errata-fonts < %{tl_version}
 Obsoletes: texlive-texmf-errata-latex < %{tl_version}, texlive-texmf-errata-xetex < %{tl_version}
 Conflicts: texlive-dvips = 2007
-# correct path fix
 Patch1: tl-kpfix.patch
-# multilib issue
-Patch2: texlive-multilib.patch
-# port for poppler-0.26.5
-Patch3: texlive-poppler-0.26.5-bz#1217556.patch
-# fix selinux context issue
-Patch4: texlive-2012-selinux.patch
-# disable warning
-Patch5: texlive-2012-warning.patch
-# fix memset warning
-Patch6: texlive-2012-memset-warning.patch
 Source0: %{source_name}.tar.xz
 Source1: texlive.tlpdb
 Source2: texlive-licenses.tar.xz
 Source3: tlpdb.patch
 Source4: texlive-fedora-licenses.h
-Source5: englishutf16.xml
 Source0100: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/ae.tar.xz
 Source0101: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/ae.doc.tar.xz
 Source0102: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/ae.source.tar.xz
@@ -703,22 +690,6 @@ Source0738: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/xstrin
 Source0739: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/xtab.tar.xz
 Source0740: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/xtab.doc.tar.xz
 Source0741: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/xtab.source.tar.xz
-Source0742: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/metapost.tar.xz
-Source0743: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/metapost.doc.tar.xz
-Source0744: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/metapost-examples.doc.tar.xz
-Source0745: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/metapost.i386-linux.tar.xz
-Source0746: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/titling.tar.xz
-Source0747: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/titling.doc.tar.xz
-Source0748: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/titling.source.tar.xz
-Source0749: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/adjustbox.tar.xz
-Source0750: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/adjustbox.doc.tar.xz
-Source0751: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/adjustbox.source.tar.xz
-Source0752: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/ifoddpage.tar.xz
-Source0753: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/ifoddpage.doc.tar.xz
-Source0754: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/ifoddpage.source.tar.xz
-Source0755: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/collectbox.tar.xz
-Source0756: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/collectbox.doc.tar.xz
-Source0757: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/collectbox.source.tar.xz
 Source6000: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/kpathsea.i386-linux.tar.xz
 Source6001: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/bibtex.i386-linux.tar.xz
 Source6002: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/collection-basic.tar.xz
@@ -754,7 +725,6 @@ Source6031: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/epstop
 Source6032: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/fontware.i386-linux.tar.xz
 Source6033: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/luaotfload.i386-linux.tar.xz
 Source6034: ftp://ftp.ctex.org/mirrors/CTAN/systems/texlive/tlnet/archive/scheme-basic.tar.xz
-Source10000: xmltex.1
 
 %description
 The TeX Live software distribution offers a complete TeX system for a
@@ -769,8 +739,6 @@ as well as the documentation for the included software packages.
 %package base
 Summary: TeX Live filesystem, metadata and licenses shipped in text form
 BuildArch: noarch
-Requires: coreutils
-Requires: sed
 Version: %{tl_version}
 
 %description base
@@ -787,7 +755,7 @@ distribution.
 
 %package kpathsea-lib-devel
 Summary: Path searching library for TeX-related files
-Requires: %{name}-kpathsea-lib%{?_isa} = %{epoch}:%{tl_version}-%{tl_release}
+Requires: %{name}-kpathsea-lib%{?_isa}
 Provides: kpathsea-devel = %{version}
 Obsoletes: kpathsea-devel < %{version}
 
@@ -4389,7 +4357,7 @@ AutoReqProv: No
 Provides: kpathsea = %{tl_version}
 Obsoletes: kpathsea < %{tl_version}
 Requires: texlive-kpathsea-bin, tex-kpathsea
-Requires(post,postun): info, coreutils
+Requires(post,postun): /sbin/install-info
 Requires: texlive-kpathsea-bin
 Provides: tex(fmtutil.cnf) = %{tl_version}
 Provides: tex(mktex.cnf) = %{tl_version}
@@ -6085,52 +6053,6 @@ AutoReqProv: No
 %description cns-doc
 Documentation for cns
 
-%package collectbox
-Provides: tex-collectbox = %{tl_version}
-License: LPPL
-Summary: collectbox package
-Version: svn26557.0
-Release: %{tl_noarch_release}
-BuildArch: noarch
-AutoReqProv: No
-Requires: texlive-base
-Requires: texlive-kpathsea-bin, tex-kpathsea
-Provides: tex(collectbox.sty) = %{tl_version}
-
-%description collectbox
-collectbox package
-
-%post collectbox
-mkdir -p /var/run/texlive
-touch /var/run/texlive/run-texhash
-touch /var/run/texlive/run-mtxrun
-:
-
-%postun collectbox
-if [ $1 == 1 ]; then
-  mkdir -p /var/run/texlive
-  touch /var/run/run-texhash
-else
-  %{_bindir}/texhash 2> /dev/null
-fi
-:
-
-%posttrans collectbox
-if [ -e /var/run/texlive/run-texhash ] && [ -e %{_bindir}/texhash ]; then %{_bindir}/texhash 2> /dev/null; rm -f /var/run/texlive/run-texhash; fi
-if [ -e /var/run/texlive/run-mtxrun ]; then export TEXMF=/usr/share/texlive/texmf-dist; export TEXMFCNF=/usr/share/texlive/texmf/web2c; export TEXMFCACHE=/var/lib/texmf; %{_bindir}/mtxrun --generate &> /dev/null; rm -f /var/run/texlive/run-mtxrun; fi
-:
-
-%package collectbox-doc
-Summary: Documentation for collectbox
-Version: svn26557.0
-Release: %{tl_noarch_release}
-Provides: tex-collectbox-doc
-BuildArch: noarch
-AutoReqProv: No
-
-%description collectbox-doc
-Documentation for collectbox
-
 %package garuda-c90
 Provides: tex-garuda-c90 = %{tl_version}
 License: LPPL
@@ -6177,52 +6099,6 @@ if [ -e /var/run/texlive/run-texhash ]; then %{_bindir}/texhash 2> /dev/null; rm
 if [ -e /var/run/texlive/run-updmap ]; then %{_bindir}/updmap-sys --syncwithtrees --nohash --quiet &> /dev/null; rm -f /var/run/texlive/run-updmap; fi
 if [ -e /var/run/texlive/run-mtxrun ]; then export TEXMF=/usr/share/texlive/texmf-dist; export TEXMFCNF=/usr/share/texlive/texmf/web2c; export TEXMFCACHE=/var/lib/texmf; %{_bindir}/mtxrun --generate &> /dev/null; rm -f /var/run/texlive/run-mtxrun; fi
 :
-
-%package ifoddpage
-Provides: tex-ifoddpage = %{tl_version}
-License: LPPL
-Summary: ifoddpage package
-Version: svn23979.0
-Release: %{tl_noarch_release}
-BuildArch: noarch
-AutoReqProv: No
-Requires: texlive-base
-Requires: texlive-kpathsea-bin, tex-kpathsea
-Provides: tex(ifoddpage.sty) = %{tl_version}
-
-%description ifoddpage
-ifoddpage package
-
-%post ifoddpage
-mkdir -p /var/run/texlive
-touch /var/run/texlive/run-texhash
-touch /var/run/texlive/run-mtxrun
-:
-
-%postun ifoddpage
-if [ $1 == 1 ]; then
-  mkdir -p /var/run/texlive
-  touch /var/run/run-texhash
-else
-  %{_bindir}/texhash 2> /dev/null
-fi
-:
-
-%posttrans ifoddpage
-if [ -e /var/run/texlive/run-texhash ] && [ -e %{_bindir}/texhash ]; then %{_bindir}/texhash 2> /dev/null; rm -f /var/run/texlive/run-texhash; fi
-if [ -e /var/run/texlive/run-mtxrun ]; then export TEXMF=/usr/share/texlive/texmf-dist; export TEXMFCNF=/usr/share/texlive/texmf/web2c; export TEXMFCACHE=/var/lib/texmf; %{_bindir}/mtxrun --generate &> /dev/null; rm -f /var/run/texlive/run-mtxrun; fi
-:
-
-%package ifoddpage-doc
-Summary: Documentation for ifoddpage
-Version: svn23979.0
-Release: %{tl_noarch_release}
-Provides: tex-ifoddpage-doc
-BuildArch: noarch
-AutoReqProv: No
-
-%description ifoddpage-doc
-Documentation for ifoddpage
 
 %package norasi-c90
 Provides: tex-norasi-c90 = %{tl_version}
@@ -11985,7 +11861,6 @@ Version: svn26314.0
 Release: %{tl_release}
 BuildArch: noarch
 Requires: texlive-base
-Requires(post,postun): coreutils
 Requires: texlive-collection-documentation-base
 Requires: tex-amsfonts
 Requires: tex-bibtex
@@ -13674,10 +13549,6 @@ Summary: Binaries for tetex
 Version: svn27344.0
 Requires: texlive-base
 Requires: tex-tetex
-# fix bz#1350485
-Requires: texlive-texlive.infra
-Requires: perl(Digest::MD5)
-Requires: texlive-texconfig-bin
 Requires: texlive-kpathsea-lib = %{epoch}:%{tl_version}-%{tl_release}
 Release: %{tl_release}
 BuildArch: noarch
@@ -13924,7 +13795,6 @@ Version: svn28082.0
 Release: %{tl_release}
 BuildArch: noarch
 Requires: texlive-base
-Requires(post,postun): coreutils
 Requires: tex-avantgar
 Requires: tex-bookman
 Requires: tex-charter
@@ -18589,7 +18459,6 @@ Version: svn28251.0
 Release: %{tl_release}
 BuildArch: noarch
 Requires: texlive-base
-Requires(post,postun): coreutils
 Requires: tex-jadetex
 Requires: tex-passivetex
 Requires: tex-tex4ht
@@ -19142,7 +19011,6 @@ Version: svn26509.0
 Requires: texlive-base
 Requires: tex-tex4ht
 Requires: texlive-kpathsea-lib = %{epoch}:%{tl_version}-%{tl_release}
-Requires: texlive-latex-bin-bin
 Release: %{tl_release}
 
 %description tex4ht-bin
@@ -19239,7 +19107,6 @@ Version: svn25030.0
 Release: %{tl_release}
 BuildArch: noarch
 Requires: texlive-base
-Requires(post,postun): coreutils
 Requires: texlive-collection-basic
 Requires: tex-ae
 Requires: tex-amscls
@@ -19735,7 +19602,6 @@ Version: svn14050.0
 Requires: texlive-base
 Requires: tex-latex-bin
 Requires: texlive-kpathsea-lib = %{epoch}:%{tl_version}-%{tl_release}
-Requires: texlive-texconfig-bin
 Release: %{tl_release}
 BuildArch: noarch
 
@@ -20830,7 +20696,6 @@ Version: svn25795.0
 Release: %{tl_release}
 BuildArch: noarch
 Requires: texlive-base
-Requires(post,postun): coreutils
 Requires: texlive-collection-latex
 Requires: tex-anysize
 Requires: tex-beamer
@@ -24361,7 +24226,6 @@ Version: svn29634.0
 Release: %{tl_release}
 BuildArch: noarch
 Requires: texlive-base
-Requires(post,postun): coreutils
 Requires: tex-arabxetex
 Requires: tex-euenc
 Requires: tex-fixlatvian
@@ -25516,8 +25380,6 @@ Requires: texlive-tetex-bin, tex-tetex
 Requires(post,postun): texlive-tetex-bin, tex-tetex, tex-hyphen-base, texlive-base
 Requires: tex-xetexconfig
 Requires: texlive-xetex-bin
-# fix bz#1320337
-Requires: tex(xetex.def)
 Provides: tex(qx-unicode.map) = %{tl_version}
 Provides: tex(tex-text.map) = %{tl_version}
 
@@ -29573,7 +29435,6 @@ Version: svn25923.0
 Release: %{tl_release}
 BuildArch: noarch
 Requires: texlive-base
-Requires(post,postun): coreutils
 Requires: texlive-collection-basic
 Requires: texlive-collection-latex
 
@@ -30168,118 +30029,6 @@ AutoReqProv: No
 
 %description titlesec-doc
 Documentation for titlesec
-
-%package titling
-Provides: tex-titling = %{tl_version}
-License: LPPL
-Summary: Control over the typesetting of the \maketitle command
-Version: svn15878.2.1d
-Release: %{tl_noarch_release}
-BuildArch: noarch
-AutoReqProv: No
-Requires: texlive-base
-Requires(post,postun): coreutils
-Requires: texlive-kpathsea-bin, tex-kpathsea
-Provides: tex(titling.sty) = %{tl_version}
-
-%description titling
-The titling package provides control over the typesetting of
-the \maketitle command and \thanks commands, and makes the
-\title, \author and \date information permanently available.
-Multiple titles are allowed in a single document. New titling
-elements can be added and a titlepage title can be centered on
-a physical page.
-
-%post titling
-mkdir -p /var/run/texlive
-touch /var/run/texlive/run-texhash
-touch /var/run/texlive/run-mtxrun
-:
-
-%postun titling
-if [ $1 == 1 ]; then
-  mkdir -p /var/run/texlive
-  touch /var/run/run-texhash
-else
-  %{_bindir}/texhash 2> /dev/null
-fi
-:
-
-%posttrans titling
-if [ -e /var/run/texlive/run-texhash ] && [ -e %{_bindir}/texhash ]; then %{_bindir}/texhash 2> /dev/null; rm -f /var/run/texlive/run-texhash; fi
-if [ -e /var/run/texlive/run-mtxrun ]; then export TEXMF=/usr/share/texlive/texmf-dist; export TEXMFCNF=/usr/share/texlive/texmf/web2c; export TEXMFCACHE=/var/lib/texmf; %{_bindir}/mtxrun --generate &> /dev/null; rm -f /var/run/texlive/run-mtxrun; fi
-:
-
-%package titling-doc
-Summary: Documentation for titling
-Version: svn15878.2.1d
-Release: %{tl_noarch_release}
-Provides: tex-titling-doc
-BuildArch: noarch
-AutoReqProv: No
-
-%description titling-doc
-Documentation for titling
-
-%package adjustbox
-Provides: tex-adjustbox = %{tl_version}
-License: LPPL
-Summary: adjustbox package
-Version: svn26555.0
-Release: %{tl_noarch_release}
-BuildArch: noarch
-AutoReqProv: No
-Requires: texlive-base
-Requires: texlive-kpathsea-bin, tex-kpathsea
-Requires: tex(xkeyval.sty)
-Requires: tex(calc.sty)
-Requires: tex(pgf.sty)
-Requires: tex(graphicx.sty)
-Requires: tex(collectbox.sty)
-Requires: tex(ifoddpage.sty)
-Requires: tex(varwidth.sty)
-Provides: tex(adjcalc.sty) = %{tl_version}
-Provides: tex(adjustbox.sty) = %{tl_version}
-Provides: tex(tc-dvips.def) = %{tl_version}
-Provides: tex(tc-pdftex.def) = %{tl_version}
-Provides: tex(tc-pgf.def) = %{tl_version}
-Provides: tex(tc-xetex.def) = %{tl_version}
-Provides: tex(trimclip.sty) = %{tl_version}
-
-%description adjustbox
-adjustbox package
-
-%post adjustbox
-mkdir -p /var/run/texlive
-touch /var/run/texlive/run-texhash
-touch /var/run/texlive/run-mtxrun
-:
-
-%postun adjustbox
-if [ $1 == 1 ]; then
-  mkdir -p /var/run/texlive
-  touch /var/run/run-texhash
-else
-  %{_bindir}/texhash 2> /dev/null
-fi
-:
-
-%posttrans adjustbox
-if [ -e /var/run/texlive/run-texhash ] && [ -e %{_bindir}/texhash ]; then %{_bindir}/texhash 2> /dev/null; rm -f /var/run/texlive/run-texhash; fi
-if [ -e /var/run/texlive/run-mtxrun ]; then export TEXMF=/usr/share/texlive/texmf-dist; export TEXMFCNF=/usr/share/texlive/texmf/web2c; export TEXMFCACHE=/var/lib/texmf; %{_bindir}/mtxrun --generate &> /dev/null; rm -f /var/run/texlive/run-mtxrun; fi
-:
-
-%package adjustbox-doc
-Summary: Documentation for adjustbox
-Version: svn26555.0
-Release: %{tl_noarch_release}
-Provides: tex-adjustbox-doc
-BuildArch: noarch
-AutoReqProv: No
-
-%description adjustbox-doc
-Documentation for adjustbox
-
 
 %package tocloft
 Provides: tex-tocloft = %{tl_version}
@@ -31118,176 +30867,6 @@ AutoReqProv: No
 %description xtab-doc
 Documentation for xtab
 
-%package metapost
-Provides: tex-metapost = %{tl_version}
-License: LGPLv2+
-Summary: A development of Metafont for creating graphics
-Version: svn26689.1.212
-Release: %{tl_noarch_release}
-BuildArch: noarch
-AutoReqProv: No
-Requires: texlive-base
-Requires: texlive-kpathsea-bin, tex-kpathsea
-Requires: texlive-tetex-bin, tex-tetex
-Requires(post,postun): texlive-tetex-bin, tex-tetex, tex-hyphen-base, texlive-base
-Requires: tex-kpathsea
-Requires: texlive-metapost-bin
-Provides: tex(groff.enc) = %{tl_version}
-Provides: tex(troff-updmap.map) = %{tl_version}
-Provides: tex(troff.map) = %{tl_version}
-Provides: tex(freeeuro.tfm) = %{tl_version}
-Provides: tex(pagd8g.tfm) = %{tl_version}
-Provides: tex(pagdo8g.tfm) = %{tl_version}
-Provides: tex(pagk8g.tfm) = %{tl_version}
-Provides: tex(pagko8g.tfm) = %{tl_version}
-Provides: tex(pbkd8g.tfm) = %{tl_version}
-Provides: tex(pbkdi8g.tfm) = %{tl_version}
-Provides: tex(pbkl8g.tfm) = %{tl_version}
-Provides: tex(pbkli8g.tfm) = %{tl_version}
-Provides: tex(pcrb8g.tfm) = %{tl_version}
-Provides: tex(pcrbo8g.tfm) = %{tl_version}
-Provides: tex(pcrr8g.tfm) = %{tl_version}
-Provides: tex(pcrro8g.tfm) = %{tl_version}
-Provides: tex(phvb8g.tfm) = %{tl_version}
-Provides: tex(phvb8gn.tfm) = %{tl_version}
-Provides: tex(phvbo8g.tfm) = %{tl_version}
-Provides: tex(phvbo8gn.tfm) = %{tl_version}
-Provides: tex(phvr8g.tfm) = %{tl_version}
-Provides: tex(phvr8gn.tfm) = %{tl_version}
-Provides: tex(phvro8g.tfm) = %{tl_version}
-Provides: tex(phvro8gn.tfm) = %{tl_version}
-Provides: tex(pncb8g.tfm) = %{tl_version}
-Provides: tex(pncbi8g.tfm) = %{tl_version}
-Provides: tex(pncr8g.tfm) = %{tl_version}
-Provides: tex(pncri8g.tfm) = %{tl_version}
-Provides: tex(pplb8g.tfm) = %{tl_version}
-Provides: tex(pplbi8g.tfm) = %{tl_version}
-Provides: tex(pplr8g.tfm) = %{tl_version}
-Provides: tex(pplri8g.tfm) = %{tl_version}
-Provides: tex(psyrgo.tfm) = %{tl_version}
-Provides: tex(ptmb8g.tfm) = %{tl_version}
-Provides: tex(ptmbi8g.tfm) = %{tl_version}
-Provides: tex(ptmr8g.tfm) = %{tl_version}
-Provides: tex(ptmri8g.tfm) = %{tl_version}
-Provides: tex(pzcmi8g.tfm) = %{tl_version}
-Provides: tex(zpzdr-reversed.tfm) = %{tl_version}
-Provides: tex(freeeuro.pfa) = %{tl_version}
-Provides: tex(trfonts.map) = %{tl_version}
-Provides: tex(mproof.tex) = %{tl_version}
-Provides: tex(mpsproof.tex) = %{tl_version}
-
-%description metapost
-MetaPost uses a language based on that of Metafont to produce
-precise technical illustrations. Its output is scalable
-PostScript or SVG, rather than the bitmaps Metafont creates.
-
-%post metapost
-mkdir -p /var/run/texlive
-touch /var/run/texlive/run-texhash
-if [ $1 -gt 0 ] ; then
-sed -i '/^Map troff-updmap.map/d' %{_texdir}/texmf/web2c/updmap.cfg
-echo "Map troff-updmap.map" >> %{_texdir}/texmf/web2c/updmap.cfg
-touch /var/run/texlive/run-updmap
-fi
-:
-
-%postun metapost
-if [ $1 == 0 ] ; then
-sed -i '/^Map troff-updmap.map/d' %{_texdir}/texmf/web2c/updmap.cfg > /dev/null 2>&1
-mkdir -p /var/run/texlive
-touch /var/run/texlive/run-texhash
-touch /var/run/texlive/run-mtxrun
-touch /var/run/texlive/run-updmap
-fi
-:
-
-%posttrans metapost
-if [ -e /var/run/texlive/run-texhash ]; then %{_bindir}/texhash 2> /dev/null; rm -f /var/run/texlive/run-texhash; fi
-if [ -e /var/run/texlive/run-updmap ]; then %{_bindir}/updmap-sys --syncwithtrees --nohash --quiet &> /dev/null; rm -f /var/run/texlive/run-updmap; fi
-if [ -e /var/run/texlive/run-mtxrun ]; then export TEXMF=/usr/share/texlive/texmf-dist; export TEXMFCNF=/usr/share/texlive/texmf/web2c; export TEXMFCACHE=/var/lib/texmf; %{_bindir}/mtxrun --generate &> /dev/null; rm -f /var/run/texlive/run-mtxrun; fi
-:
-
-%package metapost-doc
-Summary: Documentation for metapost
-Version: svn26689.1.212
-Release: %{tl_noarch_release}
-Provides: tex-metapost-doc
-BuildArch: noarch
-AutoReqProv: No
-Requires: tex-kpathsea-doc
-
-%description metapost-doc
-Documentation for metapost
-
-%package metapost-bin
-Summary: Binaries for metapost
-Version: svn26509.0
-Requires: texlive-base
-Requires: tex-metapost
-Requires: texlive-kpathsea-lib = %{epoch}:%{tl_version}-%{tl_release}
-Release: %{tl_release}
-
-%description metapost-bin
-Binaries for metapost
-
-%package metapost-examples-doc
-Summary: Documentation for metapost-examples
-Version: svn15878.0
-Release: %{tl_noarch_release}
-Provides: tex-metapost-examples-doc
-BuildArch: noarch
-AutoReqProv: No
-
-%description metapost-examples-doc
-Documentation for metapost-examples
-
-%package collection-metapost
-Summary: MetaPost (and Metafont) drawing packages
-Version: svn29655.0
-Release: %{tl_release}
-BuildArch: noarch
-Requires: texlive-base
-Requires(post,postun): coreutils
-Requires: tex-automata
-Requires: tex-bbcard
-Requires: tex-blockdraw_mp
-Requires: tex-bpolynomial
-Requires: tex-cmarrows
-Requires: tex-drv
-Requires: tex-dviincl
-Requires: tex-emp
-Requires: tex-epsincl
-Requires: tex-expressg
-Requires: tex-exteps
-Requires: tex-featpost
-Requires: tex-feynmf
-Requires: tex-feynmp-auto
-Requires: tex-garrigues
-Requires: tex-gmp
-Requires: tex-hatching
-Requires: tex-latexmp
-Requires: tex-metago
-Requires: tex-metaobj
-Requires: tex-metaplot
-Requires: tex-metapost
-Requires: tex-metauml
-Requires: tex-mfpic
-Requires: tex-mfpic4ode
-Requires: tex-mp3d
-Requires: tex-mpcolornames
-Requires: tex-mpattern
-Requires: tex-mpgraphics
-Requires: tex-piechartmp
-Requires: tex-roex
-Requires: tex-slideshow
-Requires: tex-splines
-Requires: tex-suanpan
-Requires: tex-textpath
-Requires: tex-threeddice
-Requires: texlive-collection-basic
-
-%description collection-metapost
-collection-metapost package
 
 %prep
 %setup -q -c -T
@@ -31297,10 +30876,6 @@ xz -dc %{SOURCE0} | tar x
 for l in `unxz -c %{SOURCE2} | tar t`; do
 ln -s %{_texdir}/licenses/$l $l
 done
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch6 -p1
 
 %build
 export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing -fno-strict-overflow"
@@ -31309,12 +30884,6 @@ cd source
 PREF=`pwd`/inst
 mkdir -p work
 cd work
-%ifarch ppc64le
-  for i in $(find .. -name config.guess -o -name config.sub) ; do
-      [ -f /usr/lib/rpm/redhat/$(basename $i) ] && %{__rm} -f $i && %{__cp} -fv /usr/lib/rpm/redhat/$(basename $i) $i
-  done
-  (test -x /usr/lib/rpm/redhat/libtool-handle-ppc64le.sh  && cd .. && /usr/lib/rpm/redhat/libtool-handle-ppc64le.sh)
-%endif
 ../configure --prefix=$PREF --datadir=$PREF --libdir=$PREF/lib --with-system-zlib --with-system-libpng --with-system-xpdf --with-system-gd --with-system-t1lib --with-system-teckit --with-system-freetype2 --with-system-poppler --with-system-zziplib --with-system-cairo --with-system-icu --with-system-harfbuzz --with-system-graphite2 --with-system-libgs --with-pic --with-xdvi-x-toolkit=xaw --disable-xindy --disable-xindy-docs --disable-xindy-make-rules --enable-shared --enable-compiler-warnings=max --without-cxx-runtime-hack --disable-native-texlive-build --disable-t1utils --disable-psutils --disable-biber --disable-ptexenc --disable-largefile --disable-rpath
 
 # disable rpath
@@ -31481,9 +31050,6 @@ xz -dc %{SOURCE254} | tar x -C %{buildroot}%{_texdir}
 xz -dc %{SOURCE6012} | tar x -C %{buildroot}
 xz -dc %{SOURCE255} | tar x -C %{buildroot}%{_texdir}/texmf-dist
 xz -dc %{SOURCE256} | tar x -C %{buildroot}%{_texdir}
-pushd  %{buildroot}%{_texdir}/
-patch -p0 < %{_sourcedir}/texlive-2012-warning.patch
-popd
 xz -dc %{SOURCE257} | tar x -C %{buildroot}%{_texdir}
 xz -dc %{SOURCE6013} | tar x -C %{buildroot}
 xz -dc %{SOURCE258} | tar x -C %{buildroot}%{_texdir}
@@ -31885,24 +31451,6 @@ xz -dc %{SOURCE737} | tar x -C %{buildroot}%{_texdir}/texmf-dist
 xz -dc %{SOURCE738} | tar x -C %{buildroot}%{_texdir}/texmf-dist
 xz -dc %{SOURCE739} | tar x -C %{buildroot}%{_texdir}/texmf-dist
 xz -dc %{SOURCE740} | tar x -C %{buildroot}%{_texdir}/texmf-dist
-# metapost
-xz -dc %{SOURCE742} | tar x -C %{buildroot}%{_texdir}/
-xz -dc %{SOURCE743} | tar x -C %{buildroot}%{_texdir}/
-xz -dc %{SOURCE744} | tar x -C %{buildroot}%{_texdir}/texmf-dist
-xz -dc %{SOURCE745} | tar x -C %{buildroot}
-# titling
-xz -dc %{SOURCE746} | tar x -C %{buildroot}%{_texdir}/texmf-dist
-xz -dc %{SOURCE747} | tar x -C %{buildroot}%{_texdir}/texmf-dist
-# adjustbox
-xz -dc %{SOURCE749} | tar x -C %{buildroot}%{_texdir}/texmf-dist
-xz -dc %{SOURCE750} | tar x -C %{buildroot}%{_texdir}/texmf-dist
-# ifoddpage
-xz -dc %{SOURCE752} | tar x -C %{buildroot}%{_texdir}/texmf-dist
-xz -dc %{SOURCE753} | tar x -C %{buildroot}%{_texdir}/texmf-dist
-# collectbox
-xz -dc %{SOURCE755} | tar x -C %{buildroot}%{_texdir}/texmf-dist
-xz -dc %{SOURCE756} | tar x -C %{buildroot}%{_texdir}/texmf-dist
-
 # nuke useless tlmgr packaging stuff and doc droppings
 rm -rf %{buildroot}%{_texdir}/tlpkg/tlpobj/
 rm -rf %{buildroot}%{_texdir}/texmf-dist/tlpkg/tlpobj/
@@ -32203,7 +31751,7 @@ cp -R %{buildroot}/%{_texdir}/texmf/doc/man %{buildroot}/%{_datadir}/
 find %{buildroot}/%{_texdir}/texmf/doc/man -type f | xargs rm -f
 mv %{buildroot}/%{_texdir}/texmf/doc/info/* %{buildroot}/%{_infodir}/
 pushd %{buildroot}%{_bindir}
-for f in a2ping a5toa4 adhocfilelist afm2afm afm2pl aleph amstex arara arlatex authorindex autoinst bbox bg5+latex bg5+pdflatex bg5conv bg5latex bg5pdflatex bibexport bibtex8 bibtexu bundledoc cachepic cef5conv cef5latex cef5pdflatex cefconv ceflatex cefpdflatex cefsconv cefslatex cefspdflatex cfftot1 checkcites chktex chkweb context convbkmk cslatex csplain ctangle ctanify ctanupload ctie ctxtools cweave de-macro detex devnag deweb disdvi dosepsbin dt2dv dtxgen dv2dt dvi2tty dviasm dvibook dviconcat dvicopy dvidvi dvihp dvilj dvilj2p dvilj4 dvilj4l dvilj6 dvipos dviselect dvisvgm dvitodvi dvitype e2pall ebong eplain epspdf epspdftk eptex euptex exceltex extconv fig4latex findhyph fontinst fragmaster gbklatex gbkpdflatex hbf2gf kanji-fontmap-creator lacheck lamed latex2man latexdiff latexdiff-vc latexfileversion latexpand latexrevise listbib listings-ext.sh ltxfileinfo lua2dox_filter luatools m-tx mag makeglossaries makejvf match_parens mathspic mendex mex mf2pt1 mkgrkindex mkjobtexmf mkt1font mllatex mltex mmafm mmpfb mtxrun musixflx musixtex odvicopy odvitype ofm2opl omfonts opl2ofm ot2kpx otangle otfinfo otftotfm otp2ocp outocp ovf2ovp ovp2ovf patgen pbibtex pdf180 pdf270 pdf90 pdfannotextractor pdfatfi pdfbook pdfclose pdfcrop pdfcslatex pdfcsplain pdfflip pdfjam pdfjam-pocketmod pdfjam-slides3up pdfjam-slides6up pdfjoin pdfmex pdfnup pdfopen pdfpun pdftosrc pdvitype pedigree perltex pfarrei pfb2pfa pk2bm pkfix pkfix-helper platex pmx2pdf pmxab pooltype ppltotf prepmx ps2eps ps2frag ps2pk ps4pdf pslatex pst2pdf pstopdf ptex ptex2pdf ptftopl purifyeps rpdfcrop rubibtex rumakeindex rungs scor2prt sjisconv sjislatex sjispdflatex splitindex sty2dtx svn-multi synctex t1dotlessj t1lint t1rawafm t1reencode t1testpage tangle texcount texdef texdiff texdirflatten texdoc texdoctk texexec texliveonfly texloganalyser texmfstart texsis tie tpic2pdftex ttf2afm ttf2pk ttf2tfm ttfdump ttftotype42 typeoutfileinfo ulqda upbibtex updvitype uplatex uppltotf uptex uptftopl urlbst utf8mex vlna vpe vpl2ovp vpl2vpl weave wovp2ovf ; do
+for f in a2ping a5toa4 adhocfilelist afm2afm afm2pl aleph amstex arara arlatex authorindex autoinst bbox bg5+latex bg5+pdflatex bg5conv bg5latex bg5pdflatex bibexport bibtex8 bibtexu bundledoc cachepic cef5conv cef5latex cef5pdflatex cefconv ceflatex cefpdflatex cefsconv cefslatex cefspdflatex cfftot1 checkcites chktex chkweb context convbkmk cslatex csplain ctangle ctanify ctanupload ctie ctxtools cweave de-macro detex devnag deweb disdvi dosepsbin dt2dv dtxgen dv2dt dvi2tty dviasm dvibook dviconcat dvicopy dvidvi dvihp dvilj dvilj2p dvilj4 dvilj4l dvilj6 dvipos dviselect dvisvgm dvitodvi dvitomp dvitype e2pall ebong eplain epspdf epspdftk eptex euptex exceltex extconv fig4latex findhyph fontinst fragmaster gbklatex gbkpdflatex hbf2gf kanji-fontmap-creator lacheck lamed latex2man latexdiff latexdiff-vc latexfileversion latexpand latexrevise listbib listings-ext.sh ltxfileinfo lua2dox_filter luatools m-tx mag makeglossaries makejvf match_parens mathspic mendex mex mf2pt1 mfplain mkgrkindex mkjobtexmf mkt1font mllatex mltex  mmafm mmpfb mpost mtxrun musixflx musixtex odvicopy odvitype ofm2opl omfonts     opl2ofm ot2kpx otangle otfinfo otftotfm otp2ocp outocp ovf2ovp ovp2ovf patgen pbibtex pdf180 pdf270 pdf90 pdfannotextractor pdfatfi pdfbook pdfclose pdfcrop pdfcslatex pdfcsplain pdfflip pdfjam pdfjam-pocketmod pdfjam-slides3up pdfjam-slides6up pdfjoin pdfmex pdfnup pdfopen pdfpun pdftosrc pdvitype pedigree perltex pfarrei pfb2pfa pk2bm pkfix pkfix-helper platex pmx2pdf pmxab pooltype ppltotf prepmx ps2eps ps2frag ps2pk ps4pdf pslatex pst2pdf pstopdf ptex ptex2pdf ptftopl purifyeps rpdfcrop rubibtex rumakeindex rungs scor2prt sjisconv sjislatex sjispdflatex splitindex sty2dtx svn-multi synctex t1dotlessj t1lint t1rawafm t1reencode t1testpage tangle texcount texdef texdiff texdirflatten texdoc texdoctk texexec texliveonfly texloganalyser texmfstart texsis tie tpic2pdftex ttf2afm ttf2pk ttf2tfm ttfdump ttftotype42 typeoutfileinfo ulqda upbibtex updvitype uplatex uppltotf uptex uptftopl urlbst utf8mex vlna vpe vpl2ovp vpl2vpl weave wovp2ovf ; do
 rm -f $f
 done
 popd
@@ -32246,24 +31794,6 @@ EOF
 # fix permission
 chmod 644 %{buildroot}%{_texdir}/texmf-dist/doc/latex/bidi/*
 chmod 644 %{buildroot}%{_texdir}/texmf-dist/doc/xelatex/xepersian/xepersian-logo.pdf
-
-# fix rpath
-for f in bibtex dvipdfmx dvipng afm2tfm dvips pltotf tftopl vftovp vptovf gsftopk kpsewhich \
-  luatex makeindex mf mf-nowin gftodvi gftopk gftype mft pktogf pktype \
-  pdftex tex t4ht tex4ht xdvi-xaw xdvipdfmx xetex mpost ; do
-   chrpath --delete %{buildroot}%{_bindir}/$f ||:
-done
-chrpath --delete %{buildroot}%{_libdir}/libptexenc.so.1.3.1 ||:
-
-# XML validity
-install -m 644 -p %{SOURCE5} %{buildroot}%{_texdir}/texmf-dist/doc/otherformats/xmltex/base/englishutf16.xml
-
-# install missing manpages for xmltex pdfxmltex
-install -c -p -m 0644 %{SOURCE10000} %{buildroot}%{_mandir}/man1
-ln -s xmltex.1.gz %{buildroot}%{_mandir}/man1/pdfxmltex.1
-
-# install correct fmtutil.sh which has selinux fix
-install -m 755 source/inst/share/texmf-dist/scripts/texlive/fmtutil.sh %{buildroot}/%{_texdir}/texmf/scripts/tetex/
 
 %clean
 rm -rf %{buildroot}
@@ -32421,7 +31951,6 @@ fi
 %dir %{_texdir}/texmf-dist/doc/generic/ulem
 %dir %{_texdir}/texmf-dist/doc/generic/xstring
 %dir %{_texdir}/texmf-dist/doc/latex
-%dir %{_texdir}/texmf-dist/doc/latex/adjustbox
 %dir %{_texdir}/texmf-dist/doc/latex/algorithms
 %dir %{_texdir}/texmf-dist/doc/latex/amscls
 %dir %{_texdir}/texmf-dist/doc/latex/amsmath
@@ -32473,7 +32002,6 @@ fi
 %dir %{_texdir}/texmf-dist/doc/latex/cjk/utils
 %dir %{_texdir}/texmf-dist/doc/latex/cjk/utils/pyhyphen
 %dir %{_texdir}/texmf-dist/doc/latex/cmap
-%dir %{_texdir}/texmf-dist/doc/latex/collectbox
 %dir %{_texdir}/texmf-dist/doc/latex/colortbl
 %dir %{_texdir}/texmf-dist/doc/latex/crop
 %dir %{_texdir}/texmf-dist/doc/latex/csquotes
@@ -32510,7 +32038,6 @@ fi
 %dir %{_texdir}/texmf-dist/doc/latex/hyphenat
 %dir %{_texdir}/texmf-dist/doc/latex/ifetex
 %dir %{_texdir}/texmf-dist/doc/latex/ifmtarg
-%dir %{_texdir}/texmf-dist/doc/latex/ifoddpage
 %dir %{_texdir}/texmf-dist/doc/latex/index
 %dir %{_texdir}/texmf-dist/doc/latex/jknapltx
 %dir %{_texdir}/texmf-dist/doc/latex/kerkis
@@ -32586,7 +32113,6 @@ fi
 %dir %{_texdir}/texmf-dist/doc/latex/thailatex/examples
 %dir %{_texdir}/texmf-dist/doc/latex/threeparttable
 %dir %{_texdir}/texmf-dist/doc/latex/titlesec
-%dir %{_texdir}/texmf-dist/doc/latex/titling
 %dir %{_texdir}/texmf-dist/doc/latex/tocloft
 %dir %{_texdir}/texmf-dist/doc/latex/tools
 %dir %{_texdir}/texmf-dist/doc/latex/type1cm
@@ -32657,11 +32183,6 @@ fi
 %dir %{_texdir}/texmf-dist/doc/xetex/xetexfontinfo
 %dir %{_texdir}/texmf-dist/doc/xetex/xetex-pstricks
 %dir %{_texdir}/texmf-dist/doc/xetex/xetex-tibetan
-%dir %{_texdir}/texmf-dist/doc/metapost
-%dir %{_texdir}/texmf-dist/doc/metapost/base
-%dir %{_texdir}/texmf-dist/doc/metapost/base/source-manual
-%dir %{_texdir}/texmf-dist/doc/metapost/base/source-tutorial
-%dir %{_texdir}/texmf-dist/doc/metapost/metapost-examples
 %dir %{_texdir}/texmf-dist/dvips
 %dir %{_texdir}/texmf-dist/dvips/arphic
 %dir %{_texdir}/texmf-dist/dvips/avantgar
@@ -32718,7 +32239,6 @@ fi
 %dir %{_texdir}/texmf-dist/fonts/afm/ibm
 %dir %{_texdir}/texmf-dist/fonts/afm/ibm/courier
 %dir %{_texdir}/texmf-dist/fonts/afm/ibm/times
-%dir %{_texdir}/texmf-dist/fonts/afm/metapost
 %dir %{_texdir}/texmf-dist/fonts/afm/public
 %dir %{_texdir}/texmf-dist/fonts/afm/public/amsfonts
 %dir %{_texdir}/texmf-dist/fonts/afm/public/amsfonts/cm
@@ -32768,7 +32288,6 @@ fi
 %dir %{_texdir}/texmf-dist/fonts/enc/dvips/cm-super
 %dir %{_texdir}/texmf-dist/fonts/enc/dvips/kerkis
 %dir %{_texdir}/texmf-dist/fonts/enc/dvips/lm
-%dir %{_texdir}/texmf-dist/fonts/enc/dvips/metapost
 %dir %{_texdir}/texmf-dist/fonts/enc/dvips/mnsymbol
 %dir %{_texdir}/texmf-dist/fonts/enc/dvips/tex-gyre
 %dir %{_texdir}/texmf-dist/fonts/enc/dvips/txfonts
@@ -32792,7 +32311,6 @@ fi
 %dir %{_texdir}/texmf-dist/fonts/map/dvips/kerkis
 %dir %{_texdir}/texmf-dist/fonts/map/dvips/lm
 %dir %{_texdir}/texmf-dist/fonts/map/dvips/marvosym
-%dir %{_texdir}/texmf-dist/fonts/map/dvips/metapost
 %dir %{_texdir}/texmf-dist/fonts/map/dvips/mflogo
 %dir %{_texdir}/texmf-dist/fonts/map/dvips/mnsymbol
 %dir %{_texdir}/texmf-dist/fonts/map/dvips/ncntrsbk
@@ -32904,7 +32422,6 @@ fi
 %dir %{_texdir}/texmf-dist/fonts/tfm/cns/c7so12
 %dir %{_texdir}/texmf-dist/fonts/tfm/jknappen
 %dir %{_texdir}/texmf-dist/fonts/tfm/jknappen/ec
-%dir %{_texdir}/texmf-dist/fonts/tfm/metapost
 %dir %{_texdir}/texmf-dist/fonts/tfm/monotype
 %dir %{_texdir}/texmf-dist/fonts/tfm/monotype/helvetic
 %dir %{_texdir}/texmf-dist/fonts/tfm/monotype/symbol
@@ -32981,7 +32498,6 @@ fi
 %dir %{_texdir}/texmf-dist/fonts/type1/bitstrea/charter
 %dir %{_texdir}/texmf-dist/fonts/type1/hoekwater
 %dir %{_texdir}/texmf-dist/fonts/type1/hoekwater/mflogo
-%dir %{_texdir}/texmf-dist/fonts/type1/metapost
 %dir %{_texdir}/texmf-dist/fonts/type1/public
 %dir %{_texdir}/texmf-dist/fonts/type1/public/amsfonts
 %dir %{_texdir}/texmf-dist/fonts/type1/public/amsfonts/cm
@@ -33089,12 +32605,6 @@ fi
 %dir %{_texdir}/texmf-dist/metafont/base
 %dir %{_texdir}/texmf-dist/metafont/config
 %dir %{_texdir}/texmf-dist/metafont/misc
-%dir %{_texdir}/texmf-dist/metapost
-%dir %{_texdir}/texmf-dist/metapost/base
-%dir %{_texdir}/texmf-dist/metapost/config
-%dir %{_texdir}/texmf-dist/metapost/misc
-%dir %{_texdir}/texmf-dist/metapost/support
-%dir %{_texdir}/texmf-dist/metapost/support/charlib
 %dir %{_texdir}/texmf-dist/mft
 %dir %{_texdir}/texmf-dist/mft/base
 %dir %{_texdir}/texmf-dist/omega
@@ -33444,7 +32954,6 @@ fi
 %dir %{_texdir}/texmf-dist/tex/generic/iftex
 %dir %{_texdir}/texmf-dist/tex/generic/ifxetex
 %dir %{_texdir}/texmf-dist/tex/generic/kastrup
-%dir %{_texdir}/texmf-dist/tex/generic/metapost
 %dir %{_texdir}/texmf-dist/tex/generic/misc
 %dir %{_texdir}/texmf-dist/tex/generic/multido
 %dir %{_texdir}/texmf-dist/tex/generic/oberdiek
@@ -33497,7 +33006,6 @@ fi
 %dir %{_texdir}/texmf-dist/tex/jadetex
 %dir %{_texdir}/texmf-dist/tex/jadetex/base
 %dir %{_texdir}/texmf-dist/tex/latex
-%dir %{_texdir}/texmf-dist/tex/latex/adjustbox
 %dir %{_texdir}/texmf-dist/tex/latex/ae
 %dir %{_texdir}/texmf-dist/tex/latex/algorithms
 %dir %{_texdir}/texmf-dist/tex/latex/amscls
@@ -33563,7 +33071,6 @@ fi
 %dir %{_texdir}/texmf-dist/tex/latex/cmap
 %dir %{_texdir}/texmf-dist/tex/latex/cm-lgc
 %dir %{_texdir}/texmf-dist/tex/latex/cm-super
-%dir %{_texdir}/texmf-dist/tex/latex/collectbox
 %dir %{_texdir}/texmf-dist/tex/latex/colortbl
 %dir %{_texdir}/texmf-dist/tex/latex/courier
 %dir %{_texdir}/texmf-dist/tex/latex/crop
@@ -33603,7 +33110,6 @@ fi
 %dir %{_texdir}/texmf-dist/tex/latex/hyphenat
 %dir %{_texdir}/texmf-dist/tex/latex/ifetex
 %dir %{_texdir}/texmf-dist/tex/latex/ifmtarg
-%dir %{_texdir}/texmf-dist/tex/latex/ifoddpage
 %dir %{_texdir}/texmf-dist/tex/latex/index
 %dir %{_texdir}/texmf-dist/tex/latex/jknapltx
 %dir %{_texdir}/texmf-dist/tex/latex/kerkis
@@ -33710,7 +33216,6 @@ fi
 %dir %{_texdir}/texmf-dist/tex/latex/times
 %dir %{_texdir}/texmf-dist/tex/latex/tipa
 %dir %{_texdir}/texmf-dist/tex/latex/titlesec
-%dir %{_texdir}/texmf-dist/tex/latex/titling
 %dir %{_texdir}/texmf-dist/tex/latex/tocloft
 %dir %{_texdir}/texmf-dist/tex/latex/tools
 %dir %{_texdir}/texmf-dist/tex/latex/txfonts
@@ -33838,8 +33343,6 @@ fi
 %dir %{_texdir}/texmf/xdvi
 %dir %{_texdir}/texmf/xdvi/pixmap
 %dir %{_texdir}/tlpkg
-%dir %{_texdir}/tlpkg/TeXLive
-%dir %{_texdir}/tlpkg/tlpostcode
 %{_texdir}/texmf-var
 %{_texdir}/texmf-local/texmf-compat
 %{_texdir}/licenses/*
@@ -37823,7 +37326,7 @@ fi
 %{_texdir}/texmf/web2c/cp852-pl.tcx
 %{_texdir}/texmf/web2c/cp8bit.tcx
 %{_texdir}/texmf/web2c/empty.tcx
-%config(noreplace) %verify(not md5 size mtime) %{_texdir}/texmf/web2c/fmtutil.cnf
+%config(noreplace) %{_texdir}/texmf/web2c/fmtutil.cnf
 %{_texdir}/texmf/web2c/il1-t1.tcx
 %{_texdir}/texmf/web2c/il2-cs.tcx
 %{_texdir}/texmf/web2c/il2-pl.tcx
@@ -46552,7 +46055,7 @@ fi
 %{_mandir}/man1/texlinks.1*
 %{_mandir}/man1/updmap-sys.1*
 %{_mandir}/man1/updmap.1*
-%config(noreplace) %verify(not md5 size mtime) %{_texdir}/texmf/web2c/updmap.cfg
+%config(noreplace) %{_texdir}/texmf/web2c/updmap.cfg
 %{_texdir}/texmf-dist/scripts/tetex/allcm.sh
 %{_texdir}/texmf-dist/scripts/tetex/allneeded.sh
 %{_texdir}/texmf-dist/scripts/tetex/dvi2fax.sh
@@ -55127,8 +54630,6 @@ fi
 %files xmltex
 %defattr(-,root,root)
 %doc lppl1.txt
-%{_mandir}/man1/xmltex.1*
-%{_mandir}/man1/pdfxmltex.1*
 %{_texdir}/texmf-dist/tex/xmltex/base/iso-8859-1.xmt
 %{_texdir}/texmf-dist/tex/xmltex/base/iso-8859-2.xmt
 %{_texdir}/texmf-dist/tex/xmltex/base/koi8-r.xmt
@@ -60819,17 +60320,6 @@ fi
 %{_texdir}/texmf-dist/doc/latex/titlesec/titlesec.pdf
 %{_texdir}/texmf-dist/doc/latex/titlesec/titlesec.tex
 
-%files titling
-%defattr(-,root,root)
-%doc lppl1.txt
-%{_texdir}/texmf-dist/tex/latex/titling/titling.sty
-
-%files titling-doc
-%defattr(-,root,root)
-%doc lppl1.txt
-%{_texdir}/texmf-dist/doc/latex/titling/README
-%{_texdir}/texmf-dist/doc/latex/titling/titling.pdf
-
 %files tocloft
 %defattr(-,root,root)
 %doc lppl1.3.txt
@@ -61261,283 +60751,8 @@ fi
 %{_includedir}/kpathsea/*
 %{_libdir}/*.so
 
-%files metapost
-%defattr(-,root,root)
-%doc lgpl2.1.txt
-%{_mandir}/man1/dvitomp.1*
-%{_mandir}/man1/mpost.1*
-%{_texdir}/texmf-dist/fonts/afm/metapost/freeeuro.afm
-%{_texdir}/texmf-dist/fonts/afm/metapost/psyrgo.afm
-%{_texdir}/texmf-dist/fonts/afm/metapost/zpzdr-reversed.afm
-%{_texdir}/texmf-dist/fonts/enc/dvips/metapost/groff.enc
-%{_texdir}/texmf-dist/fonts/map/dvips/metapost/troff-updmap.map
-%{_texdir}/texmf-dist/fonts/map/dvips/metapost/troff.map
-%{_texdir}/texmf-dist/fonts/tfm/metapost/freeeuro.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/pagd8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/pagdo8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/pagk8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/pagko8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/pbkd8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/pbkdi8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/pbkl8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/pbkli8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/pcrb8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/pcrbo8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/pcrr8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/pcrro8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/phvb8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/phvb8gn.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/phvbo8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/phvbo8gn.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/phvr8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/phvr8gn.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/phvro8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/phvro8gn.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/pncb8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/pncbi8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/pncr8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/pncri8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/pplb8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/pplbi8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/pplr8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/pplri8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/psyrgo.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/ptmb8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/ptmbi8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/ptmr8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/ptmri8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/pzcmi8g.tfm
-%{_texdir}/texmf-dist/fonts/tfm/metapost/zpzdr-reversed.tfm
-%{_texdir}/texmf-dist/fonts/type1/metapost/freeeuro.pfa
-%{_texdir}/texmf-dist/metapost/base/TEX.mp
-%{_texdir}/texmf-dist/metapost/base/boxes.mp
-%{_texdir}/texmf-dist/metapost/base/format.mp
-%{_texdir}/texmf-dist/metapost/base/graph.mp
-%{_texdir}/texmf-dist/metapost/base/marith.mp
-%{_texdir}/texmf-dist/metapost/base/mfplain.mp
-%{_texdir}/texmf-dist/metapost/base/mpost.mp
-%{_texdir}/texmf-dist/metapost/base/plain.mp
-%{_texdir}/texmf-dist/metapost/base/rboxes.mp
-%{_texdir}/texmf-dist/metapost/base/sarith.mp
-%{_texdir}/texmf-dist/metapost/base/string.mp
-%{_texdir}/texmf-dist/metapost/base/texnum.mp
-%{_texdir}/texmf-dist/metapost/base/troffnum.mp
-%{_texdir}/texmf-dist/metapost/config/mfplain.ini
-%{_texdir}/texmf-dist/metapost/misc/null.mp
-%{_texdir}/texmf-dist/metapost/support/charlib/12
-%{_texdir}/texmf-dist/metapost/support/charlib/14
-%{_texdir}/texmf-dist/metapost/support/charlib/34
-%{_texdir}/texmf-dist/metapost/support/charlib/Ao
-%{_texdir}/texmf-dist/metapost/support/charlib/Fi
-%{_texdir}/texmf-dist/metapost/support/charlib/Fl
-%{_texdir}/texmf-dist/metapost/support/charlib/L1
-%{_texdir}/texmf-dist/metapost/support/charlib/LH
-%{_texdir}/texmf-dist/metapost/support/charlib/Lb
-%{_texdir}/texmf-dist/metapost/support/charlib/Sl
-%{_texdir}/texmf-dist/metapost/support/charlib/ao.x
-%{_texdir}/texmf-dist/metapost/support/charlib/bx
-%{_texdir}/texmf-dist/metapost/support/charlib/ci
-%{_texdir}/texmf-dist/metapost/support/charlib/ff
-%{_texdir}/texmf-dist/metapost/support/charlib/lh.x
-%{_texdir}/texmf-dist/metapost/support/charlib/ob
-%{_texdir}/texmf-dist/metapost/support/charlib/rh
-%{_texdir}/texmf-dist/metapost/support/charlib/sq
-%{_texdir}/texmf-dist/metapost/support/charlib/twiddle
-%{_texdir}/texmf-dist/metapost/support/trchars.adj
-%{_texdir}/texmf-dist/metapost/support/trfonts.map
-%{_texdir}/texmf-dist/tex/generic/metapost/mproof.tex
-%{_texdir}/texmf-dist/tex/generic/metapost/mpsproof.tex
-
-%files metapost-doc
-%defattr(-,root,root)
-%doc lgpl2.1.txt
-%{_texdir}/texmf-dist/doc/metapost/base/grdemo-doc.pdf
-%{_texdir}/texmf-dist/doc/metapost/base/grdemo.pdf
-%{_texdir}/texmf-dist/doc/metapost/base/index.html
-%{_texdir}/texmf-dist/doc/metapost/base/mpboxes.pdf
-%{_texdir}/texmf-dist/doc/metapost/base/mpgraph.pdf
-%{_texdir}/texmf-dist/doc/metapost/base/mpintro.pdf
-%{_texdir}/texmf-dist/doc/metapost/base/mplibapi.pdf
-%{_texdir}/texmf-dist/doc/metapost/base/mpman.pdf
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/Makefile
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/README
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/TODO
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/agepop91.d
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/agepopm.d
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/charts.mp
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/cm2lm.map
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/countries.d
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/ctabbing.sty
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/demo.ms
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/energy.d
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/figs.1
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/figs.mp
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/grdemo-doc.ms
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/grdemo-doc.ps
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/grdemo.eps
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/grdemo.mp
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/grdemo.ms
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/lead.d
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/matmul.d
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/mpboxes.bib
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/mpboxes.mp
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/mpboxes.tex
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/mpgraph.bib
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/mpgraph.mp
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/mpgraph.tex
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/mplibapi.tex
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/mpman-app-legacy.tex
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/mpman-app-optab.tex
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/mpman-app-refman.tex
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/mpman-charts.mp
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/mpman.bib
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/mpman.ist
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/mpman.mp
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/mpman.tex
-%{_texdir}/texmf-dist/doc/metapost/base/source-manual/timepop.d
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/Makefile
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/abstract.tex
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/annulus.mp
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/arrows.tex
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/biblio.tex
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/circles.mp
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/commands.tex
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/compilation.tex
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/conclusion.tex
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/data.d
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/data.mp
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/data.tex
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/draw.mp
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/draw.tex
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/fill.mp
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/fill.tex
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/graph.tex
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/inclusion.tex
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/intro.tex
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/label.mp
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/label.tex
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/mpintro.bib
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/mpintro.ltx
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/paperclip.mp
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/parabola.mp
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/previewer.eps
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/previewer.pdf
-%{_texdir}/texmf-dist/doc/metapost/base/source-tutorial/previewer.png
-
-%files metapost-bin
-%defattr(-,root,root)
-%doc lgpl2.1.txt
-%{_bindir}/dvitomp
-%{_bindir}/mfplain
-%{_bindir}/mpost
-
-%files metapost-examples-doc
-%defattr(-,root,root)
-%{_texdir}/texmf-dist/doc/metapost/metapost-examples/Makefile
-%{_texdir}/texmf-dist/doc/metapost/metapost-examples/README
-%{_texdir}/texmf-dist/doc/metapost/metapost-examples/data1
-%{_texdir}/texmf-dist/doc/metapost/metapost-examples/data2
-%{_texdir}/texmf-dist/doc/metapost/metapost-examples/data3
-%{_texdir}/texmf-dist/doc/metapost/metapost-examples/examples.mp
-%{_texdir}/texmf-dist/doc/metapost/metapost-examples/mp2html.pl
-
-%files adjustbox
-%defattr(-,root,root)
-%{_texdir}/texmf-dist/tex/latex/adjustbox/adjcalc.sty
-%{_texdir}/texmf-dist/tex/latex/adjustbox/adjustbox.sty
-%{_texdir}/texmf-dist/tex/latex/adjustbox/tc-dvips.def
-%{_texdir}/texmf-dist/tex/latex/adjustbox/tc-pdftex.def
-%{_texdir}/texmf-dist/tex/latex/adjustbox/tc-pgf.def
-%{_texdir}/texmf-dist/tex/latex/adjustbox/tc-xetex.def
-%{_texdir}/texmf-dist/tex/latex/adjustbox/trimclip.sty
-
-%files adjustbox-doc
-%defattr(-,root,root)
-%{_texdir}/texmf-dist/doc/latex/adjustbox/README
-%{_texdir}/texmf-dist/doc/latex/adjustbox/adjcalc.pdf
-%{_texdir}/texmf-dist/doc/latex/adjustbox/adjustbox.pdf
-%{_texdir}/texmf-dist/doc/latex/adjustbox/trimclip.pdf
-
-%files collectbox
-%defattr(-,root,root)
-%{_texdir}/texmf-dist/tex/latex/collectbox/collectbox.sty
-
-%files collectbox-doc
-%defattr(-,root,root)
-%{_texdir}/texmf-dist/doc/latex/collectbox/README
-%{_texdir}/texmf-dist/doc/latex/collectbox/collectbox.pdf
-
-%files ifoddpage
-%defattr(-,root,root)
-%{_texdir}/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty
-
-%files ifoddpage-doc
-%defattr(-,root,root)
-%{_texdir}/texmf-dist/doc/latex/ifoddpage/README
-%{_texdir}/texmf-dist/doc/latex/ifoddpage/ifoddpage.pdf
-
-
 %changelog
-* Sun Jul 22 2018 Than Ngo <than@redhat.com> - 2:2012-43.20130427_r30134
-- Related: #1337981 - fixed memset warning detected by rpmdiff
-
-* Wed Jul 18 2018 Than Ngo <than@redhat.com> - 2:2012-42.20130427_r30134
-- Related: #1337981 - fixed VerifyTest
-
-* Wed Jul 11 2018 Than Ngo <than@redhat.com> - 2:2012-41.20130427_r30134
-- Related: #1337981 - silence the warning
-
-* Tue May 29 2018 Than Ngo <than@redhat.com> - 2:2012-40.20130427_r30134
-- Resolves: #1337981 - silence the warning
-
-* Thu May 17 2018 Than Ngo <than@redhat.com> - 2:2012-39.20130427_r30134
-- Resolves: #1320337 - dependiency on texlive-xetex-def
-- Resolves: #1350485 - updmap from texlive-tetex-bin cannot be executed
-- Resolves: #1337925 - scriptlet errors
-- Resolves: #1186825 - add coreutils for post/unpost
-
-* Mon Sep 21 2015 Than Ngo <than@redhat.com> - 2:2012-38.20130427_r30134
-- Resolves: bz#1198299, directory not owned by any package issue
-
-* Thu Sep 17 2015 Than Ngo <than@redhat.com> - 2:2012-37.20130427_r30134
-- Resolves: bz#1198299, add texlive-adjustbox
-
-* Tue Jun 09 2015 Than Ngo <than@redhat.com> - 2:2012-36.20130427_r30134
-- fix rpath issue in mpost (rpmdiff)
-
-* Mon Jun 08 2015 Than Ngo <than@redhat.com> - 2:2012-35.20130427_r30134
-- Resolves: bz#948318, wrong selinux context
-
-* Thu Apr 23 2015 Than Ngo <than@redhat.com> - 2:2012-34.20130427_r30134
-- Resolves: bz#1064453, add missing texlive-metapost and groff.enc
-  Resolves: bz#948532, add missing manpages for pdfxmltex, xmltex
-  Resolves: bz#1213886, tex4ht-bin requires latex
-  Resolves: bz#1217556, port for poppler-0.26.5
-  Resolves: bz#1035679, scriptlet errors when installing texlive packages
-  Resolves: bz#1184987, add texlive-titling
-
-* Tue Aug 19 2014 Than Ngo <than@redhat.com> - 2:2012-33.20130427_r30134
-- Resolves: bz#1125696
-
-* Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 2:2012-32.20130427_r30134
-- Mass rebuild 2014-01-24
-
-* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 2:2012-31.20130427_r30134
-- Mass rebuild 2013-12-27
-
-* Wed Nov 20 2013 Than Ngo <than@redhat.com> - 2:2012-30.20130427_r30134
-- bz#1035679, Scriptlet errors
-
-* Wed Nov 20 2013 Than Ngo <than@redhat.com> - 2:2012-29.20130427_r30134
-- fix issue in RPath
-
-* Wed Nov 13 2013 Than Ngo <than@redhat.com> - 2:2012-28.20130427_r30134
-- fix multilib issue 
-- fix RPM requirement
-- fix issue in RPath
-- fix issue in XML validity
-
-* Wed Aug 14 2013 Than Ngo <than@redhat.com> - 2:2012-27-20130427
+* Wed Aug 14 2013 Than Ngo <than@redhat.com> - 2:-2012-26-20130427
 - compile sources with -fno-strict-overflow
 - fix file permission
 
